@@ -1,9 +1,10 @@
 package com.mballem.demoparkapi.web.controller;
 
 import com.mballem.demoparkapi.web.dto.UsuarioCreateDto;
-import com.mballem.demoparkapi.web.dto.mapper.usuarioMapper;
+import com.mballem.demoparkapi.web.dto.mapper.UsuarioMapper;
 import com.mballem.demoparkapi.web.dto.usuarioResponseDto;
 import com.mballem.demoparkapi.web.dto.usuarioSenhaDto;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,12 +33,12 @@ public class UsuarioController {
 // Ele injeta um serviço de usuário para executar a lógica de negócios.
 
     @PostMapping
-    public ResponseEntity<usuarioResponseDto> create(@RequestBody UsuarioCreateDto createDto) {
+    public ResponseEntity<usuarioResponseDto> create(@Valid @RequestBody UsuarioCreateDto createDto) {
         // Este método trata as solicitações HTTP POST para criar um novo usuário.
         // Ele recebe um objeto UsuarioCreateDto no corpo da solicitação e o transforma em um objeto Usuario.
-        Usuario user = usuarioService.salvar(usuarioMapper.toUsuario(createDto));
+        Usuario user = usuarioService.salvar(UsuarioMapper.toUsuario(createDto));
         // Em seguida, chama o serviço para salvar o usuário e retorna uma resposta com o usuário criado no corpo.
-        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioMapper.toDto(user));
+        return ResponseEntity.status(HttpStatus.CREATED).body(UsuarioMapper.toDto(user));
     }
 
     @GetMapping("/{id}")
@@ -45,11 +46,11 @@ public class UsuarioController {
         // Este método trata solicitações HTTP GET para recuperar informações sobre um usuário com base em seu ID.
         Usuario user = usuarioService.buscarPorId(id);
         // Ele chama o serviço para buscar o usuário com o ID fornecido e retorna uma resposta com os dados do usuário no corpo.
-        return ResponseEntity.ok().body(usuarioMapper.toDto(user));
+        return ResponseEntity.ok().body(UsuarioMapper.toDto(user));
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Void> updatePassword(@PathVariable Long id, @RequestBody usuarioSenhaDto dto) {
+    public ResponseEntity<Void> updatePassword(@PathVariable Long id, @Valid @RequestBody usuarioSenhaDto dto) {
         // Este método lida com solicitações HTTP PATCH para atualizar a senha de um usuário com base em seu ID.
         // Ele recebe o ID do usuário e um objeto usuarioSenhaDto contendo informações de senha no corpo da solicitação.
         Usuario user = usuarioService.editarSenha(id, dto.getSenhaAtual(), dto.getNovaSenha(), dto.getConfirmaSenha());
@@ -62,6 +63,6 @@ public class UsuarioController {
         // Este método trata solicitações HTTP GET para recuperar uma lista de todos os usuários.
         List<Usuario> users = usuarioService.buscarTodos();
         // Ele chama o serviço para buscar todos os usuários e retorna uma resposta com a lista de usuários no corpo.
-        return ResponseEntity.ok(usuarioMapper.toListDto(users));
+        return ResponseEntity.ok(UsuarioMapper.toListDto(users));
     }
 }
