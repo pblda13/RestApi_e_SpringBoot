@@ -2,8 +2,8 @@ package com.mballem.demoparkapi.web.controller;
 
 import com.mballem.demoparkapi.web.dto.UsuarioCreateDto;
 import com.mballem.demoparkapi.web.dto.mapper.UsuarioMapper;
-import com.mballem.demoparkapi.web.dto.usuarioResponseDto;
-import com.mballem.demoparkapi.web.dto.usuarioSenhaDto;
+import com.mballem.demoparkapi.web.dto.UsuarioResponseDto;
+import com.mballem.demoparkapi.web.dto.UsuarioSenhaDto;
 import com.mballem.demoparkapi.web.exception.ErrorMessage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -41,7 +41,7 @@ public class UsuarioController {
 @Operation(summary = "Criar um novo usuário",description = "Recurso para criar um novo usuário",
 responses = {
         @ApiResponse(responseCode = "201",description = "Recurso criado com sucesso",
-                content = @Content(mediaType = "application/json",schema = @Schema(implementation = usuarioResponseDto.class))),
+                content = @Content(mediaType = "application/json",schema = @Schema(implementation = UsuarioResponseDto.class))),
         @ApiResponse(responseCode = "409",description = "Usuário e-mail já cadastrado",
         content = @Content(mediaType = "application/json",schema = @Schema(implementation = ErrorMessage.class))),
         @ApiResponse(responseCode = "422",description = "Recurso não processado por dados de entrada invalidos",
@@ -49,7 +49,7 @@ responses = {
 
 })
     @PostMapping
-    public ResponseEntity<usuarioResponseDto> create(@Valid @RequestBody UsuarioCreateDto createDto) {
+    public ResponseEntity<UsuarioResponseDto> create(@Valid @RequestBody UsuarioCreateDto createDto) {
         // Este método trata as solicitações HTTP POST para criar um novo usuário.
         // Ele recebe um objeto UsuarioCreateDto no corpo da solicitação e o transforma em um objeto Usuario.
         Usuario user = usuarioService.salvar(UsuarioMapper.toUsuario(createDto));
@@ -60,13 +60,13 @@ responses = {
     @Operation(summary = "Recuperar um usuario pelo id",description = "Recuperar um usuario pelo id",
             responses = {
                     @ApiResponse(responseCode = "200",description = "Recurso recuperado com sucesso",
-                            content = @Content(mediaType = "application/json",schema = @Schema(implementation = usuarioResponseDto.class))),
+                            content = @Content(mediaType = "application/json",schema = @Schema(implementation = UsuarioResponseDto.class))),
                     @ApiResponse(responseCode = "404",description = "Recurso não encontrado",
                             content = @Content(mediaType = "application/json",schema = @Schema(implementation = ErrorMessage.class))),
 
             })
     @GetMapping("/{id}")
-    public ResponseEntity<usuarioResponseDto> getById(@PathVariable Long id) {
+    public ResponseEntity<UsuarioResponseDto> getById(@PathVariable Long id) {
         // Este método trata solicitações HTTP GET para recuperar informações sobre um usuário com base em seu ID.
         Usuario user = usuarioService.buscarPorId(id);
         // Ele chama o serviço para buscar o usuário com o ID fornecido e retorna uma resposta com os dados do usuário no corpo.
@@ -83,7 +83,7 @@ responses = {
 
             })
     @PatchMapping("/{id}")
-    public ResponseEntity<Void> updatePassword(@PathVariable Long id, @Valid @RequestBody usuarioSenhaDto dto) {
+    public ResponseEntity<Void> updatePassword(@PathVariable Long id, @Valid @RequestBody UsuarioSenhaDto dto) {
         // Este método lida com solicitações HTTP PATCH para atualizar a senha de um usuário com base em seu ID.
         // Ele recebe o ID do usuário e um objeto usuarioSenhaDto contendo informações de senha no corpo da solicitação.
         Usuario user = usuarioService.editarSenha(id, dto.getSenhaAtual(), dto.getNovaSenha(), dto.getConfirmaSenha());
@@ -94,11 +94,11 @@ responses = {
             responses = {
                     @ApiResponse(responseCode = "200",description = "Lista todos os usuarios cadastrados",
                             content = @Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = usuarioResponseDto.class)))),
+                            array = @ArraySchema(schema = @Schema(implementation = UsuarioResponseDto.class)))),
 
             })
     @GetMapping
-    public ResponseEntity<List<usuarioResponseDto>> getAll() {
+    public ResponseEntity<List<UsuarioResponseDto>> getAll() {
         // Este método trata solicitações HTTP GET para recuperar uma lista de todos os usuários.
         List<Usuario> users = usuarioService.buscarTodos();
         // Ele chama o serviço para buscar todos os usuários e retorna uma resposta com a lista de usuários no corpo.

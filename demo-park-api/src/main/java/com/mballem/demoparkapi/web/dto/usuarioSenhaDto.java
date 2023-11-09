@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class usuarioSenhaDto {
+public class UsuarioSenhaDto {
 
     @NotBlank
     @Size(min = 6,max = 6)

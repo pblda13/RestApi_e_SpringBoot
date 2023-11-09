@@ -3,7 +3,7 @@ package com.mballem.demoparkapi.service;
 import com.mballem.demoparkapi.entity.Usuario;
 import com.mballem.demoparkapi.repository.UsuarioRepository;
 import com.mballem.demoparkapi.service.exception.EntityNotFoundException;
-import com.mballem.demoparkapi.service.exception.PassWordInvalidException;
+import com.mballem.demoparkapi.service.exception.PasswordInvalidException;
 import com.mballem.demoparkapi.service.exception.UsernameUniqueViolationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -40,26 +40,18 @@ public class UsuarioService {
 	// Método para editar a senha de um usuário
 	@Transactional
 	public Usuario editarSenha(Long id, String senhaAtual, String novaSenha, String confirmaSenha) {
-		// Verifica se a nova senha e a confirmação de senha coincidem
 		if (!novaSenha.equals(confirmaSenha)) {
-			throw new PassWordInvalidException(String.format("Nova senha {%s} não confere com a confirmação",novaSenha));
+			throw new PasswordInvalidException("Nova senha não confere com confirmação de senha.");
 		}
 
-		// Busca o usuário com o ID especificado
 		Usuario user = buscarPorId(id);
-
-		// Verifica se a senha atual do usuário coincide com a senha fornecida
-		if (user.getPassword().equals(senhaAtual)) {
-			throw new PassWordInvalidException(String.format("Suas senhas não conferem"));
+		if (!user.getPassword().equals(senhaAtual)) {
+			throw new PasswordInvalidException("Sua senha não confere.");
 		}
 
-		// Define a nova senha para o usuário
 		user.setPassword(novaSenha);
-
-		// Retorna o usuário atualizado
 		return user;
 	}
-
 	// Método para buscar todos os usuários no banco de dados
 	@Transactional(readOnly = true)
 	public List<Usuario> buscarTodos() {

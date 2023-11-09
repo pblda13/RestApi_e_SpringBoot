@@ -1,7 +1,7 @@
 package com.mballem.demoparkapi.service.exception;
 
-public class PassWordInvalidException extends RuntimeException {
-    public PassWordInvalidException(String messagem) {
+public class PasswordInvalidException extends RuntimeException {
+    public PasswordInvalidException(String messagem) {
         super(messagem);
     }
 }
