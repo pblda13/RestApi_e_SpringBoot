@@ -9,6 +9,11 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Getter @Setter @NoArgsConstructor
 // As anotações @Getter, @Setter e @NoArgsConstructor são anotações do projeto Lombok.
@@ -21,7 +26,7 @@ import lombok.Setter;
 
 @Table(name = "usuarios")
 // A anotação @Table define o nome da tabela no banco de dados para a entidade 'Usuario'.
-
+@EntityListeners(AuditingEntityListener.class)
 public class Usuario implements Serializable {
 	// A classe 'Usuario' representa uma entidade de usuário no sistema.
 
@@ -44,18 +49,19 @@ public class Usuario implements Serializable {
 	private Role role = Role.ROLE_CLIENTE;
 	// O campo 'role' representa a função do usuário, sendo definido como um valor do tipo Role.
 
+	@CreatedDate
 	@Column(name = "data_criacao")
 	private LocalDateTime dataCriacao;
 	// O campo 'dataCriacao' armazena a data de criação do usuário.
-
+@LastModifiedDate
 	@Column(name = "data_modificacao")
 	private LocalDateTime dataModificacao;
 	// O campo 'dataModificacao' armazena a data de modificação do usuário.
-
+@CreatedBy
 	@Column(name = "criado_por")
 	private String criadoPor;
 	// O campo 'criadoPor' armazena o nome de quem criou o usuário.
-
+@LastModifiedBy
 	@Column(name = "modificado_por")
 	private String modificadoPor;
 	// O campo 'modificadoPor' armazena o nome de quem modificou o usuário.
