@@ -54,3 +54,5 @@ Ao contribuir para este projeto, por favor, siga as boas práticas de desenvolvi
 - Documente o código sempre que possível
 - Adicione testes para novas funcionalidades
 
+
+![Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2Fpblda13%2FRestApi_e_SpringBoot%2Ftree%2Fmain&label=VISITORS&labelColor=%23f47373&countColor=%23d9e3f0)
