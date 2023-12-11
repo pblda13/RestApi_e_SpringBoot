@@ -21,7 +21,7 @@ Este projeto consiste no desenvolvimento de uma API Rest utilizando Spring Boot 
 1.**Clonando o Repositório:**
 
     ```
-    git clone https://github.com/seu-usuario/nome-do-repositorio.git
+    git clone https://github.com/pblda13/RestApi_e_SpringBoot.git
     ```
 
 2. **Configuração do Ambiente:**
